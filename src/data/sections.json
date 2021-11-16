@@ -2,13 +2,13 @@
   "text": {
     "id": true,
     "placeholder": false,
-    "default": false,
+    "label": false,
     "info": false
   },
   "textarea": {
     "id": true,
     "placeholder": false,
-    "default": false,
+    "label": false,
     "info": false
   },
   "image_picker": {
@@ -17,18 +17,18 @@
   "radio": {
     "id": true,
     "options": false,
-    "default": false,
+    "label": false,
     "info": false
   },  
   "select": {
     "id": true,
     "options": false,
-    "default": false,
+    "label": false,
     "info": false
   },    
   "checkbox": {
     "id": true,
-    "default": false,
+    "label": false,
     "info": false
   },    
   "range": {
@@ -37,16 +37,16 @@
     "max": true,
     "step": true,
     "unit": true,
-    "default": false
+    "label": false
   },    
   "color": {
     "id": true,
-    "default": false,
+    "label": false,
     "info": false
   },    
   "font_picker": {
     "id": true,
-    "default": false,
+    "label": false,
     "info": false
   },    
   "collection": {
@@ -76,16 +76,16 @@
   "video_url": {
     "id": true,
     "accept": true,
-    "default": false,
+    "label": false,
     "placeholder": false
   },  
   "richtext": {
     "id": true,
-    "default": false
+    "label": false
   },      
   "html": {
     "id": true,
-    "default": false
+    "label": false
   },  
   "article": {
     "id": true
