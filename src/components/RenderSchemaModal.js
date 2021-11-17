@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Modal, Button } from "@shopify/polaris";
 import "../css/styles.css";
 import PropTypes from "prop-types";
 import { cloneDeep } from "lodash";
@@ -123,28 +122,11 @@ class RenderFieldModal extends Component {
   };
 
   render() {
-    const { modalActive } = this.state;
     const fieldItemsJSON = this.getFieldJSON();
 
     return (
       <div>
-        Json go brr:
-        <br />
-        <textarea style={{ width: "100%" }} value={fieldItemsJSON} readOnly="readOnly"></textarea>
-        {/* <Button onClick={this.handleModalChange}>Render JSON</Button>
-        <Modal
-          open={modalActive}
-          onClose={this.handleModalChange}
-          title="Schema Section JSON"
-          primaryAction={{
-            content: "Close",
-            onAction: this.handleModalChange,
-          }}
-        >
-          <Modal.Section>
-            <textarea value={fieldItemsJSON} readOnly="readOnly"></textarea>
-          </Modal.Section>
-        </Modal> */}
+        <textarea style={{ width: "100%", marginBottom: 0 }} value={fieldItemsJSON} readOnly="readOnly"></textarea>
       </div>
     );
   }

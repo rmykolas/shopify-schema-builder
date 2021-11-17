@@ -78,7 +78,7 @@ class PageLayout extends Component {
           <Layout.AnnotatedSection title="Blocks" description="optional setting">
             {activeFields.includes("blocks") && <Blocks handleModalChange={this.handleModalChange} />}
           </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection>
+          <Layout.AnnotatedSection title="Schema JSON" description="Your JSON go brrrrrr">
             <Card sectioned>
               {/* <Stack distribution="center" alignment="trailing"> */}
               <RenderSchemaModal activeFields={Object.keys(types["section"])} />
