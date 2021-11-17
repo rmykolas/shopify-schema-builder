@@ -18,33 +18,40 @@ class RenderFieldModal extends Component {
     this.setState(({ modalActive }) => ({ modalActive: !modalActive }));
   };
 
-  addTransformStrings = (reorderedObject, fields) => {
+  addTransformStrings = (reorderedObject) => {
     let objectWithTranslationStrings = cloneDeep(reorderedObject);
+
+    let transformedName = reorderedObject.name.toLowerCase().split(" ").join("_");
 
     // updating translation strings
     if (reorderedObject.name && reorderedObject.name.length > 0) {
-      let transformedName = reorderedObject.name.toLowerCase().split(" ").join("_");
-
       objectWithTranslationStrings.name = `t:sections.${transformedName}.name`;
 
       if (objectWithTranslationStrings.presets) {
-        objectWithTranslationStrings.presets[0].name = transformedName;
+        objectWithTranslationStrings.presets[0].name = `t:sections.${transformedName}.presets.name`;
       }
     }
 
     // settings
     objectWithTranslationStrings.settings.map((settingsItem, index) => {
+      let transformedId = settingsItem.id.toLowerCase().split(" ").join("_");
+
+      // id
+      if (settingsItem.id && settingsItem.id.length > 0) {
+        settingsItem.id = transformedId;
+      }
+
       // label
       if (settingsItem.label && settingsItem.label.length > 0) {
-        objectWithTranslationStrings.settings[index].label = `t:sections.${fields.store.name}.settings.${settingsItem.id}.label`;
+        objectWithTranslationStrings.settings[index].label = `t:sections.${transformedName}.settings.${transformedId}.label`;
       }
       // info
       if (settingsItem.info && settingsItem.info.length > 0) {
-        objectWithTranslationStrings.settings[index].info = `t:sections.${fields.store.name}.settings.${settingsItem.id}.info`;
+        objectWithTranslationStrings.settings[index].info = `t:sections.${transformedName}.settings.${transformedId}.info`;
       }
       // placeholder
       if (settingsItem.placeholder && settingsItem.placeholder.length > 0) {
-        objectWithTranslationStrings.settings[index].placeholder = `t:sections.${fields.store.name}.settings.${settingsItem.id}.placeholder`;
+        objectWithTranslationStrings.settings[index].placeholder = `t:sections.${transformedName}.settings.${transformedId}.placeholder`;
       }
     });
 
@@ -52,17 +59,24 @@ class RenderFieldModal extends Component {
     if (objectWithTranslationStrings.blocks) {
       objectWithTranslationStrings.blocks.map((blockItem) => {
         blockItem.settings.map((blockItemSettingsItem) => {
+          let transformedId = blockItemSettingsItem.id.toLowerCase().split(" ").join("_");
+
+          // id
+          if (blockItemSettingsItem.id && blockItemSettingsItem.id.length > 0) {
+            blockItemSettingsItem.id = transformedId;
+          }
+
           // label
           if (blockItemSettingsItem.label && blockItemSettingsItem.label.length > 0) {
-            blockItemSettingsItem.label = `t:sections.${fields.store.name}.blocks.${blockItemSettingsItem.id}.label`;
+            blockItemSettingsItem.label = `t:sections.${transformedName}.blocks.${transformedId}.label`;
           }
           // info
           if (blockItemSettingsItem.info && blockItemSettingsItem.info.length > 0) {
-            blockItemSettingsItem.info = `t:sections.${fields.store.name}.blocks.${blockItemSettingsItem.id}.info`;
+            blockItemSettingsItem.info = `t:sections.${transformedName}.blocks.${transformedId}.info`;
           }
           // placeholder
           if (blockItemSettingsItem.placeholder && blockItemSettingsItem.placeholder.length > 0) {
-            blockItemSettingsItem.placeholder = `t:sections.${fields.store.name}.blocks.${blockItemSettingsItem.id}.placeholder`;
+            blockItemSettingsItem.placeholder = `t:sections.${transformedName}.blocks.${transformedId}.placeholder`;
           }
         });
       });
