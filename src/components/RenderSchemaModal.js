@@ -21,7 +21,11 @@ class RenderFieldModal extends Component {
   addTransformStrings = (reorderedObject) => {
     let objectWithTranslationStrings = cloneDeep(reorderedObject);
 
-    let transformedName = reorderedObject.name.toLowerCase().split(" ").join("_");
+    let transformedName = "";
+
+    if (reorderedObject.name) {
+      transformedName = reorderedObject.name.toLowerCase().split(" ").join("_");
+    }
 
     // updating translation strings
     if (reorderedObject.name && reorderedObject.name.length > 0) {
