@@ -27,7 +27,9 @@ class RenderFieldModal extends Component {
 
       objectWithTranslationStrings.name = `t:sections.${transformedName}.name`;
 
-      objectWithTranslationStrings.presets[0].name = transformedName;
+      if (objectWithTranslationStrings.presets) {
+        objectWithTranslationStrings.presets[0].name = transformedName;
+      }
     }
 
     // settings
