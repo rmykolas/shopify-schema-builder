@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Layout,
-  Page,
-  Card,
-  TextField,
-  FormLayout,
-  Form,
-  Stack,
-  TextContainer,
-} from "@shopify/polaris";
+import { Layout, Page, Card, TextField, FormLayout, Form, Stack, TextContainer } from "@shopify/polaris";
 import RenderSchemaModal from "./RenderSchemaModal";
 import Blocks from "./Blocks";
 import SettingsSection from "./SettingsSection";
@@ -34,9 +25,7 @@ class PageLayout extends Component {
       selectedItem = this.props.storeSettings[id][index];
     }
 
-    itemDetails = selectedItem
-      ? JSON.parse(JSON.stringify(selectedItem))
-      : null;
+    itemDetails = selectedItem ? JSON.parse(JSON.stringify(selectedItem)) : null;
 
     switch (modalChangeType) {
       case "edit":
@@ -66,24 +55,13 @@ class PageLayout extends Component {
     return (
       <Page title="Shopify Section Schema Generator">
         <Layout>
-          <Layout.AnnotatedSection
-            title="Section details"
-            description="A number of the common section details here"
-          >
+          <Layout.AnnotatedSection title="Section details" description="A number of the common section details here">
             <Card sectioned>
               <TextContainer>
                 <Form>
                   <FormLayout>
                     {activeFields.map((field) => {
-                      if (textFields.includes(field))
-                        return (
-                          <TextField
-                            key={field}
-                            label={uppercaseFirst(field)}
-                            value={mainFields[field]}
-                            onChange={(value) => updateValue(field, value)}
-                          />
-                        );
+                      if (textFields.includes(field)) return <TextField key={field} label={uppercaseFirst(field)} value={mainFields[field]} onChange={(value) => updateValue(field, value)} />;
                       return <p key={field}></p>;
                     })}
                   </FormLayout>
@@ -92,33 +70,19 @@ class PageLayout extends Component {
             </Card>
           </Layout.AnnotatedSection>
 
-          <Layout.AnnotatedSection
-            title="Settings"
-            description="Fill out your section settings here"
-          >
+          <Layout.AnnotatedSection title="Settings" description="Fill out your section settings here">
             <Card sectioned>
-              <SettingsSection
-                id={"store"}
-                handleModalChange={this.handleModalChange}
-                showSettingsButton={true}
-              />
+              <SettingsSection id={"store"} handleModalChange={this.handleModalChange} showSettingsButton={true} />
             </Card>
           </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection
-            title="Blocks"
-            description="optional setting"
-          >
-            {activeFields.includes("blocks") && (
-              <Blocks handleModalChange={this.handleModalChange} />
-            )}
+          <Layout.AnnotatedSection title="Blocks" description="optional setting">
+            {activeFields.includes("blocks") && <Blocks handleModalChange={this.handleModalChange} />}
           </Layout.AnnotatedSection>
           <Layout.AnnotatedSection>
             <Card sectioned>
-              <Stack distribution="center" alignment="trailing">
-                <RenderSchemaModal
-                  activeFields={Object.keys(types["section"])}
-                />
-              </Stack>
+              {/* <Stack distribution="center" alignment="trailing"> */}
+              <RenderSchemaModal activeFields={Object.keys(types["section"])} />
+              {/* </Stack> */}
             </Card>
           </Layout.AnnotatedSection>
         </Layout>
@@ -139,41 +103,46 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setErrorState: (errorState) => dispatch({
-      type: "SET_ERROR_STATE",
-      errorState
-    }),
-    modalEdit: (itemDetails, index, id) => dispatch({
-      type: "MODAL_ACTIVE",
-      modalActive: true,
-      modalType: "edit",
-      item: itemDetails,
-      index,
-      id,          
-    }),
-    modalAdd: (id) => dispatch({
-      type: "MODAL_ACTIVE",
-      modalActive: true,
-      modalType: "add",
-      item: null,
-      index: null,
-      id,
-    }),
-    modalDuplicate: (itemDetails, id) => dispatch({
-      type: "MODAL_ACTIVE",
-      modalActive: true,
-      modalType: "duplicate",
-      item: itemDetails,
-      index: null,
-      id,      
-    }),
-    updateValue: (field, value) => dispatch({
-      type: "UPDATE_FIELD",
-      id: "store",
-      field,
-      value,    
-    })
-  }
-}
+    setErrorState: (errorState) =>
+      dispatch({
+        type: "SET_ERROR_STATE",
+        errorState,
+      }),
+    modalEdit: (itemDetails, index, id) =>
+      dispatch({
+        type: "MODAL_ACTIVE",
+        modalActive: true,
+        modalType: "edit",
+        item: itemDetails,
+        index,
+        id,
+      }),
+    modalAdd: (id) =>
+      dispatch({
+        type: "MODAL_ACTIVE",
+        modalActive: true,
+        modalType: "add",
+        item: null,
+        index: null,
+        id,
+      }),
+    modalDuplicate: (itemDetails, id) =>
+      dispatch({
+        type: "MODAL_ACTIVE",
+        modalActive: true,
+        modalType: "duplicate",
+        item: itemDetails,
+        index: null,
+        id,
+      }),
+    updateValue: (field, value) =>
+      dispatch({
+        type: "UPDATE_FIELD",
+        id: "store",
+        field,
+        value,
+      }),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageLayout);

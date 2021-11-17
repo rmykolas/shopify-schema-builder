@@ -10,8 +10,8 @@ class RenderFieldModal extends Component {
   };
 
   static propTypes = {
-    activeFields: PropTypes.array
-  }
+    activeFields: PropTypes.array,
+  };
 
   handleModalChange = () => {
     this.setState(({ modalActive }) => ({ modalActive: !modalActive }));
@@ -21,6 +21,8 @@ class RenderFieldModal extends Component {
     const removeQuotesRegex = new RegExp(/"(min|max|step)": "(\d*)"/gi);
     const { fields, settings, blocks } = this.props;
 
+    console.log("get field json called", this.props.settings);
+
     const reorderedBlocks =
       blocks.length === 0
         ? null
@@ -28,20 +30,26 @@ class RenderFieldModal extends Component {
             return { ...fields[id], settings: settings[id] };
           });
 
+    const presets =
+      blocks.length === 0
+        ? null
+        : blocks.map(({ id }) => {
+            return { type: fields[id].type };
+          });
+
     const reorderedObject = {
       ...fields.store,
       settings: settings.store,
-      ...(blocks.length > 0 && { blocks: reorderedBlocks }),
+      ...(blocks.length > 0 && { blocks: reorderedBlocks, presets: [{ name: fields.store.name, blocks: [...presets] }] }),
     };
 
-    let stringifiedFieldItems = JSON.stringify(
-      reorderedObject,
-      null,
-      2
-    ).replace(removeQuotesRegex, '"$1": $2');
+    // name: fields.store.name
 
-    stringifiedFieldItems =
-      `{% schema %}\n` + stringifiedFieldItems + `\n{% endschema %}`;
+    let stringifiedFieldItems = JSON.stringify(reorderedObject, null, 2).replace(removeQuotesRegex, '"$1": $2');
+
+    console.log("stringified ites: ", stringifiedFieldItems);
+
+    stringifiedFieldItems = `{% schema %}\n` + stringifiedFieldItems + `\n{% endschema %}`;
 
     return stringifiedFieldItems;
   };
@@ -52,7 +60,10 @@ class RenderFieldModal extends Component {
 
     return (
       <div>
-        <Button onClick={this.handleModalChange}>Render JSON</Button>
+        Json go brr:
+        <br />
+        <textarea style={{ width: "100%" }} value={fieldItemsJSON} readOnly="readOnly"></textarea>
+        {/* <Button onClick={this.handleModalChange}>Render JSON</Button>
         <Modal
           open={modalActive}
           onClose={this.handleModalChange}
@@ -65,7 +76,7 @@ class RenderFieldModal extends Component {
           <Modal.Section>
             <textarea value={fieldItemsJSON} readOnly="readOnly"></textarea>
           </Modal.Section>
-        </Modal>
+        </Modal> */}
       </div>
     );
   }
