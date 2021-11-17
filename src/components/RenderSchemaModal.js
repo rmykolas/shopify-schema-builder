@@ -23,21 +23,25 @@ class RenderFieldModal extends Component {
 
     // updating translation strings
     if (reorderedObject.name && reorderedObject.name.length > 0) {
-      objectWithTranslationStrings.name = `t:sections.${reorderedObject.name}.name`;
+      let transformedName = reorderedObject.name.toLowerCase().split(" ").join("_");
+
+      objectWithTranslationStrings.name = `t:sections.${transformedName}.name`;
+
+      objectWithTranslationStrings.presets[0].name = transformedName;
     }
 
     // settings
     objectWithTranslationStrings.settings.map((settingsItem, index) => {
       // label
-      if (settingsItem.label.length > 0) {
+      if (settingsItem.label && settingsItem.label.length > 0) {
         objectWithTranslationStrings.settings[index].label = `t:sections.${fields.store.name}.settings.${settingsItem.id}.label`;
       }
       // info
-      if (settingsItem.info.length > 0) {
+      if (settingsItem.info && settingsItem.info.length > 0) {
         objectWithTranslationStrings.settings[index].info = `t:sections.${fields.store.name}.settings.${settingsItem.id}.info`;
       }
       // placeholder
-      if (settingsItem.placeholder.length > 0) {
+      if (settingsItem.placeholder && settingsItem.placeholder.length > 0) {
         objectWithTranslationStrings.settings[index].placeholder = `t:sections.${fields.store.name}.settings.${settingsItem.id}.placeholder`;
       }
     });
@@ -47,7 +51,7 @@ class RenderFieldModal extends Component {
       objectWithTranslationStrings.blocks.map((blockItem) => {
         blockItem.settings.map((blockItemSettingsItem) => {
           // label
-          if (blockItemSettingsItem.label.length > 0) {
+          if (blockItemSettingsItem.label && blockItemSettingsItem.label.length > 0) {
             blockItemSettingsItem.label = `t:sections.${fields.store.name}.blocks.${blockItemSettingsItem.id}.label`;
           }
           // info
@@ -55,7 +59,7 @@ class RenderFieldModal extends Component {
             blockItemSettingsItem.info = `t:sections.${fields.store.name}.blocks.${blockItemSettingsItem.id}.info`;
           }
           // placeholder
-          if (blockItemSettingsItem.placeholder.length > 0) {
+          if (blockItemSettingsItem.placeholder && blockItemSettingsItem.placeholder.length > 0) {
             blockItemSettingsItem.placeholder = `t:sections.${fields.store.name}.blocks.${blockItemSettingsItem.id}.placeholder`;
           }
         });
