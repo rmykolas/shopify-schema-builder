@@ -5,17 +5,11 @@ import PropTypes from "prop-types";
 import { cloneDeep } from "lodash";
 
 class RenderFieldModal extends Component {
-  state = {
-    modalActive: false,
-  };
-
   static propTypes = {
     activeFields: PropTypes.array,
   };
 
-  handleModalChange = () => {
-    this.setState(({ modalActive }) => ({ modalActive: !modalActive }));
-  };
+  transformString = (string = "", spaceModifier = "_") => string.toLowerCase().split(" ").join(spaceModifier);
 
   addTransformStrings = (reorderedObject) => {
     let objectWithTranslationStrings = cloneDeep(reorderedObject);
@@ -23,7 +17,7 @@ class RenderFieldModal extends Component {
     let transformedName = "";
 
     if (reorderedObject.name) {
-      transformedName = reorderedObject.name.toLowerCase().split(" ").join("_");
+      transformedName = this.transformString(reorderedObject.name);
     }
 
     // updating translation strings
@@ -37,7 +31,7 @@ class RenderFieldModal extends Component {
 
     // settings
     objectWithTranslationStrings.settings.map((settingsItem, index) => {
-      let transformedId = settingsItem.id.toLowerCase().split(" ").join("_");
+      let transformedId = this.transformString(settingsItem.id);
 
       // id
       if (settingsItem.id && settingsItem.id.length > 0) {
@@ -62,7 +56,7 @@ class RenderFieldModal extends Component {
     if (objectWithTranslationStrings.blocks) {
       objectWithTranslationStrings.blocks.map((blockItem) => {
         blockItem.settings.map((blockItemSettingsItem) => {
-          let transformedId = blockItemSettingsItem.id.toLowerCase().split(" ").join("_");
+          let transformedId = this.transformString(blockItemSettingsItem.id);
 
           // id
           if (blockItemSettingsItem.id && blockItemSettingsItem.id.length > 0) {
@@ -121,12 +115,68 @@ class RenderFieldModal extends Component {
     return stringifiedFieldItems;
   };
 
+  getTranslationJSON = () => {
+    const removeQuotesRegex = new RegExp(/"(min|max|step)": "(\d*)"/gi);
+    const { fields, settings, blocks } = this.props;
+
+    let transformedName = "";
+
+    if (fields.store.name) {
+      transformedName = this.transformString(fields.store.name);
+    }
+
+    const translationJSON = {
+      name: transformedName,
+      settings: {},
+      blocks: {},
+      presets: {
+        name: transformedName,
+      },
+    };
+
+    // setting
+    settings.store.map((settingItem) => {
+      translationJSON.settings[this.transformString(settingItem.id, "")] = {
+        label: settingItem.label,
+        placeholder: settingItem.placeholder,
+      };
+    });
+
+    // blocks
+    blocks.map((blockItem) => {
+      translationJSON.blocks[this.transformString(fields[blockItem.id].type, "_")] = {
+        name: fields[blockItem.id].name,
+        settings: {},
+      };
+
+      let targetBlockSettings = settings[blockItem.id];
+
+      targetBlockSettings.map((settingItem) => {
+        translationJSON.blocks[this.transformString(fields[blockItem.id].type, "_")].settings[this.transformString(settingItem.id, "_")] = {
+          label: settingItem.label,
+          placeholder: settingItem.placeholder,
+          info: settingItem.info,
+        };
+      });
+    });
+
+    let stringifiedFieldItems = `${transformedName}: {\n` + JSON.stringify(translationJSON, null, 2).replace(removeQuotesRegex, '"$1": $2') + "}";
+
+    return stringifiedFieldItems;
+  };
+
   render() {
     const fieldItemsJSON = this.getFieldJSON();
 
+    const translationJSON = this.getTranslationJSON();
+
     return (
       <div>
-        <textarea style={{ width: "100%", marginBottom: 0 }} value={fieldItemsJSON} readOnly="readOnly"></textarea>
+        <textarea value={fieldItemsJSON} readOnly="readOnly"></textarea>
+        <br />
+        Translation json go here brr:
+        <br />
+        <textarea value={translationJSON} readOnly="readOnly"></textarea>
       </div>
     );
   }
