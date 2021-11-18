@@ -126,11 +126,11 @@ class RenderFieldModal extends Component {
     }
 
     const translationJSON = {
-      name: transformedName,
+      name: fields.store.name,
       settings: {},
       blocks: {},
       presets: {
-        name: transformedName,
+        name: fields.store.name,
       },
     };
 
