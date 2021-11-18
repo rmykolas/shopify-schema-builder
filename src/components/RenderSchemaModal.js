@@ -86,16 +86,10 @@ class RenderFieldModal extends Component {
     const removeQuotesRegex = new RegExp(/"(min|max|step)": "(\d*)"/gi);
     const { fields, settings, blocks } = this.props;
 
-    let presets = {
-      name: fields.store.name,
-      blocks: []
-    }
-
     const reorderedBlocks =
       blocks.length === 0
         ? null
         : blocks.map(({ id }) => {
-            presets.blocks.push({ type: fields[id].type, name: fields[id].name })
             return { ...fields[id], settings: settings[id] };
           });
 
@@ -109,10 +103,6 @@ class RenderFieldModal extends Component {
     const reorderedObject = {
       ...fields.store,
       settings: settings.store,
-<<<<<<< HEAD
-      ...(blocks.length > 0 && { blocks: reorderedBlocks }),
-      presets: blocks.length > 0 ? presets : { name: presets.name }
-=======
       ...(blocks.length > 0 && { blocks: reorderedBlocks, presets: [{ name: fields.store.name, blocks: [...presets] }] }),
     };
 
@@ -142,7 +132,6 @@ class RenderFieldModal extends Component {
       presets: {
         name: transformedName,
       },
->>>>>>> master
     };
 
     // setting
