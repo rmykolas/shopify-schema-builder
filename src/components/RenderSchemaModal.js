@@ -52,9 +52,15 @@ class RenderFieldModal extends Component {
       }
     });
 
+    // debugger;
+
     // blocks
     if (objectWithTranslationStrings.blocks) {
       objectWithTranslationStrings.blocks.map((blockItem) => {
+        if (blockItem.name) {
+          blockItem.name = this.transformString(blockItem.name);
+        }
+
         blockItem.settings.map((blockItemSettingsItem) => {
           let transformedId = this.transformString(blockItemSettingsItem.id);
 
