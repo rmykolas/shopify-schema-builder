@@ -9,7 +9,7 @@ class EditOptions extends Component {
     options: PropTypes.object,
     handleSettingChange: PropTypes.func,
     isLastItem: PropTypes.bool,
-  }
+  };
 
   render() {
     const { inputType, options, index, handleSettingChange, isLastItem } = this.props;
@@ -22,45 +22,54 @@ class EditOptions extends Component {
           key={"group" + index}
           placeholder="group"
           value={options["group"]}
-          onChange={(value) => handleSettingChange({
-            changeType: 'editOption',
-            index, 
-            attribute: "group" 
-          }, value)}
+          onChange={(value) =>
+            handleSettingChange(
+              {
+                changeType: "editOption",
+                index,
+                attribute: "group",
+              },
+              value
+            )
+          }
         />
       );
     }
 
     return (
-        <div>
-      <Stack>
-        {group}
+      <div>
+        <Stack>
+          {group}
 
-        {sharedInputs.map(input => {
-          return (
-            <TextField
-              key={input + index}
-              placeholder={input}
-              value={options[input]}
-              onChange={(value) => handleSettingChange({
-                  changeType: 'editOption',
-                  index, 
-                  attribute: input 
-                }, 
-              value)}
-            />
-          );
-        })}
-        {isLastItem ? (
-          <Button onClick={() => handleSettingChange({ changeType: 'addOption' })} label="Add item">
-            +
-          </Button>
-        ) : (
-          <Button onClick={() => handleSettingChange({ changeType: 'removeOption', index })} label="Remove item">
-            -
-          </Button>
-        )}      
-      </Stack>
+          {sharedInputs.map((input) => {
+            return (
+              <TextField
+                key={input + index}
+                placeholder={input}
+                value={options[input]}
+                onChange={(value) =>
+                  handleSettingChange(
+                    {
+                      changeType: "editOption",
+                      index,
+                      attribute: input,
+                    },
+                    value
+                  )
+                }
+              />
+            );
+          })}
+          {isLastItem ? (
+            <Button onClick={() => handleSettingChange({ changeType: "addOption" })} label="Add item">
+              +
+            </Button>
+          ) : (
+            <Button onClick={() => handleSettingChange({ changeType: "removeOption", index })} label="Remove item">
+              -
+            </Button>
+          )}
+        </Stack>
       </div>
     );
   }

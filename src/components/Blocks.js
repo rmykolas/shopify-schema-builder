@@ -39,25 +39,12 @@ class Blocks extends Component {
           return (
             <Card sectioned key={block.id}>
               <Collapsible open={block.isOpen} id="basic-collapsible">
-                <Block
-                  key={block.id}
-                  blockValues={block}
-                  id={block.id}
-                  handleModalChange={handleModalChange}
-                />
+                <Block key={block.id} blockValues={block} id={block.id} handleModalChange={handleModalChange} />
               </Collapsible>
               <Stack distribution="center">
-                <Button onClick={() => this.deleteBlock(index, block.id)}>
-                  Delete Block
-                </Button>
-                <Button onClick={() => handleModalChange("add", block.id)}>
-                  New Setting Item
-                </Button>
-                <Button
-                  onClick={() => this.handleToggleClick(index, !block.isOpen)}
-                  ariaExpanded={"open0"}
-                  ariaControls="basic-collapsible"
-                >
+                <Button onClick={() => this.deleteBlock(index, block.id)}>Delete Block</Button>
+                <Button onClick={() => handleModalChange("add", block.id)}>New Setting Item</Button>
+                <Button onClick={() => this.handleToggleClick(index, !block.isOpen)} ariaExpanded={"open0"} ariaControls="basic-collapsible">
                   {block.isOpen ? "⇧" : "⇩"}
                 </Button>
               </Stack>
@@ -68,16 +55,7 @@ class Blocks extends Component {
         <Card sectioned>
           <Stack distribution="center" alignment="trailing">
             <Button onClick={() => this.addBlock()}>Add New Block</Button>
-            {blocks.length > 0 && (
-              <TextField
-                key={"max_blocks"}
-                label={"Max Blocks"}
-                type="number"
-                min="1"
-                value={fields.store.maxBlocks}
-                onChange={(value) => this.updateMaxBlocks(value)}
-              />
-            )}
+            {blocks.length > 0 && <TextField key={"max_blocks"} label={"Max Blocks"} type="number" min="1" value={fields.store.maxBlocks} onChange={(value) => this.updateMaxBlocks(value)} />}
           </Stack>
         </Card>
       </>
@@ -94,16 +72,16 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return {     
-    addBlock: (id ) => dispatch({ type: 'ADD_BLOCK', id }),
-    addFields: (id ) => dispatch({ type: 'ADD_FIELDS', id }),
-    addSetting: (id ) => dispatch({ type: 'ADD_SETTING', id }),
+  return {
+    addBlock: (id) => dispatch({ type: "ADD_BLOCK", id }),
+    addFields: (id) => dispatch({ type: "ADD_FIELDS", id }),
+    addSetting: (id) => dispatch({ type: "ADD_SETTING", id }),
     updateField: (field, value, id) => dispatch({ type: "UPDATE_FIELD", field, value, id }),
-    toggleBlock: (index, isOpen) => dispatch({ type: 'TOGGLE_BLOCK', index, setting: isOpen }),
-    deleteBlock: (index ) => dispatch({ type: 'DELETE_BLOCK', index }),
-    deleteAllSettings: (id) =>dispatch({ type:'DELETE_ALL_SETTINGS', id }),
-    deleteAllFields: (id) => dispatch({ type: 'DELETE_ALL_FIELDS', id }),
-  }
-}
+    toggleBlock: (index, isOpen) => dispatch({ type: "TOGGLE_BLOCK", index, setting: isOpen }),
+    deleteBlock: (index) => dispatch({ type: "DELETE_BLOCK", index }),
+    deleteAllSettings: (id) => dispatch({ type: "DELETE_ALL_SETTINGS", id }),
+    deleteAllFields: (id) => dispatch({ type: "DELETE_ALL_FIELDS", id }),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Blocks);
