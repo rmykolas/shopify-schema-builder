@@ -112,11 +112,13 @@ class RenderFieldModal extends Component {
       ...(blocks.length > 0 && { blocks: reorderedBlocks, presets: [{ name: fields.store.name, blocks: [...presets] }] }),
     };
 
+    //     debugger;
+
     let transformedItems = this.addTransformStrings(reorderedObject, fields);
 
     let stringifiedFieldItems = JSON.stringify(transformedItems, null, 2).replace(removeQuotesRegex, '"$1": $2');
 
-    stringifiedFieldItems = `{% schema %}\n` + stringifiedFieldItems + `\n{% endschema %}`;
+    stringifiedFieldItems = `{% schema %}\n` + stringifiedFieldItems.replace("maxBlocks", "max_blocks") + `\n{% endschema %}`;
 
     return stringifiedFieldItems;
   };
